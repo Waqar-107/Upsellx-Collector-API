@@ -4,9 +4,9 @@ const swaggerUi = require("swagger-ui-express");
 const options = {
 	swaggerDefinition: {
 		info: {
-			title: "Express-template",
+			title: "upsellx-collector-api",
 			version: "1.0.0",
-			description: "A template for express",
+			description: "scraping app to collect client info from the internet",
 			license: {
 				name: "MIT",
 				url: "https://choosealicense.com/licenses/mit/",
