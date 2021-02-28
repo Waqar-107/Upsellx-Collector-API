@@ -1,0 +1,4 @@
+SECRET=weiiuegfhvyte73lueburqwe7d7gd3957bfubrut8rpi[ihrh88qeoe@#550jasvyv34&&h845
+PORT=5000
+DB_URL=mongodb://localhost:27017/express-template
+SALT_ROUNDS=10
