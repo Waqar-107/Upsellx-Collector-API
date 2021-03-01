@@ -2,19 +2,17 @@ const mongoose = require("mongoose");
 mongoose.set("useFindAndModify", false);
 const CompanyModel = require("../models/company");
 
-const {SUCCESS, INTERNAL_SERVER_ERROR, BAD_REQUEST, DATA_NOT_FOUND} = require("../util/errors");
+const {SUCCESS, INTERNAL_SERVER_ERROR} = require("../util/errors");
 const error_message = require("../util/error_message");
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
 const {getSocialLinks, getWebPage} = require("../util/parser");
 
-exports.scrape_company_data = async function (req, res) {
+exports.scrapeCompanyData = async function (req, res) {
 	const companyUrl = req.query.url;
 
 	const companyData = await CompanyModel.findOne({websiteUrl: companyUrl});
 	if (companyData) {
-		res.status(SUCCESS).json({msg: "success", company_data});
+		res.status(SUCCESS).json({msg: "success", companyData});
 		return;
 	}
 
@@ -22,16 +20,32 @@ exports.scrape_company_data = async function (req, res) {
 	newCompanyData.websiteUrl = companyUrl;
 
 	// fetch data, analyze and save it
-	const company_dom = await getWebPage(companyUrl);
-	if (!company_dom) {
+	const companyDOM = await getWebPage(companyUrl);
+	if (!companyDOM) {
 		res.status(INTERNAL_SERVER_ERROR).json(error_message.INTERNAL_SERVER_ERROR);
 		return;
 	}
 
-	const socialLinks = await getSocialLinks();
-	socialLinks.foreach((val) => {
-		console.log(val);
+	// save own DOM
+	newCompanyData.dataSrc.push({
+		name: "myself",
+		url: companyUrl,
+		webResponse: companyDOM.webResponse,
 	});
 
-	res.status(DATA_NOT_FOUND).json({msg: "looking"});
+	const socialLinks = await getSocialLinks(companyDOM.dom);
+	for (let key in socialLinks) {
+		let socialDom = await getWebPage(socialLinks[key]);
+		newCompanyData.dataSrc.push({
+			name: key,
+			url: socialLinks[key],
+			webResponse: socialDom.webResponse,
+		});
+	}
+
+	newCompanyData.save((err, docs) => {
+		if (err) {
+			res.status(INTERNAL_SERVER_ERROR).json({message: "server crashed while saving data"});
+		} else res.status(SUCCESS).json(docs);
+	});
 };

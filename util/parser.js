@@ -1,3 +1,4 @@
+const {response} = require("express");
 const got = require("got");
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -29,14 +30,15 @@ exports.getSocialLinks = async (dom) => {
 };
 
 exports.getWebPage = async (url) => {
-	let dom;
+	let dom, webResponse;
 	await got(url)
 		.then((response) => {
 			dom = new JSDOM(response.body);
+			webResponse = response.body;
 		})
 		.catch((err) => {
-			console.log("error fetching");
+			console.log("error fetching", err);
 		});
 
-	return dom;
+	return {dom, webResponse};
 };

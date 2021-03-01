@@ -38,7 +38,7 @@ const Schema = mongoose.Schema;
  *                 description: name of the source. for example, facebook, instagram, twitter etc
  *               url:
  *                 type: string
- *               parsedData:
+ *               webResponse:
  *                 type: string
  *                 description: the contents fetched from the url that can be scraped and data can be extracted
  *         createdAt:
@@ -96,7 +96,7 @@ const CompanySchema = new Schema(
 					required: true,
 				},
 
-				parsedData: {
+				webResponse: {
 					type: String,
 					required: true,
 				},
