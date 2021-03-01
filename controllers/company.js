@@ -5,16 +5,33 @@ const CompanyModel = require("../models/company");
 const {SUCCESS, INTERNAL_SERVER_ERROR, BAD_REQUEST, DATA_NOT_FOUND} = require("../util/errors");
 const error_message = require("../util/error_message");
 
-exports.scrape_company_data = async function (req, res) {
-	const company_url = req.query.url;
+const jsdom = require("jsdom");
+const {JSDOM} = jsdom;
+const {getSocialLinks, getWebPage} = require("../util/parser");
 
-	const company_data = await CompanyModel.findOne({website_url: company_url});
-	if (company_data) {
-		res.status(SUCCESS).json({company_data});
+exports.scrape_company_data = async function (req, res) {
+	const companyUrl = req.query.url;
+
+	const companyData = await CompanyModel.findOne({websiteUrl: companyUrl});
+	if (companyData) {
+		res.status(SUCCESS).json({msg: "success", company_data});
+		return;
 	}
+
+	let newCompanyData = new CompanyModel();
+	newCompanyData.websiteUrl = companyUrl;
 
 	// fetch data, analyze and save it
-	else {
-		res.status(DATA_NOT_FOUND).json(error_message.DATA_NOT_FOUND);
+	const company_dom = await getWebPage(companyUrl);
+	if (!company_dom) {
+		res.status(INTERNAL_SERVER_ERROR).json(error_message.INTERNAL_SERVER_ERROR);
+		return;
 	}
+
+	const socialLinks = await getSocialLinks();
+	socialLinks.foreach((val) => {
+		console.log(val);
+	});
+
+	res.status(DATA_NOT_FOUND).json({msg: "looking"});
 };
