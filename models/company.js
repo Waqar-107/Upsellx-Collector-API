@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
  *     Company:
  *       type: object
  *       properties:
- *         website_url:
+ *         websiteUrl:
  *           type: string
  *           descriptions: url of the personal website of the company
  *         name:
@@ -38,7 +38,7 @@ const Schema = mongoose.Schema;
  *                 description: name of the source. for example, facebook, instagram, twitter etc
  *               url:
  *                 type: string
- *               parsed_data:
+ *               parsedData:
  *                 type: string
  *                 description: the contents fetched from the url that can be scraped and data can be extracted
  *         createdAt:
@@ -46,20 +46,18 @@ const Schema = mongoose.Schema;
  *           format: date-time
  *           default: current-date
  *       required:
- *         - website_url
- *         - name
- *         - phone
+ *         - websiteUrl
  */
 const CompanySchema = new Schema(
 	{
-		website_url: {
+		websiteUrl: {
 			type: String,
 			required: true,
 		},
 
 		name: {
 			type: String,
-			required: true,
+			required: false,
 		},
 
 		phone: [
@@ -86,7 +84,7 @@ const CompanySchema = new Schema(
 			required: false,
 		},
 
-		data_src: [
+		dataSrc: [
 			{
 				name: {
 					type: String,
@@ -98,7 +96,7 @@ const CompanySchema = new Schema(
 					required: true,
 				},
 
-				parsed_data: {
+				parsedData: {
 					type: String,
 					required: true,
 				},
