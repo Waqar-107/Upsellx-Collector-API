@@ -17,7 +17,8 @@ const options = {
 	useNewUrlParser: true,
 };
 
-mongoose.connect(process.env.DB_URL, options, (err) => {
+let DB_URL = "mongodb://localhost:27017/upsellx_collector_api";
+mongoose.connect(DB_URL, options, (err) => {
 	if (!err) {
 		console.log("Successfully connected to database");
 	} else {
@@ -38,7 +39,7 @@ app.get("/", (req, res) => {
 });
 app.use(companyRoutes);
 
-let port = process.env.PORT || 5000;
+let port = 5000;
 const server = app.listen(port, () => {
 	console.log("Server started at port " + port);
 });
