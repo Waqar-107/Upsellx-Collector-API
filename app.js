@@ -17,7 +17,7 @@ const options = {
 	useNewUrlParser: true,
 };
 
-let DB_URL = process.env.DB_URL;
+let DB_URL = `mongodb+srv://waqar:${process.env.DB_PASS}@metigy.usap5.mongodb.net/upsellx_collectors_api?retryWrites=true&w=majority`;
 mongoose.connect(DB_URL, options, (err) => {
 	if (!err) {
 		console.log("Successfully connected to database");
