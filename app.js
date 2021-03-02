@@ -17,7 +17,8 @@ const options = {
 	useNewUrlParser: true,
 };
 
-let DB_URL = "mongodb://localhost:27017/upsellx_collector_api";
+let DB_URL =
+	"mongodb+srv://waqar:metigy@metigy.usap5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 mongoose.connect(DB_URL, options, (err) => {
 	if (!err) {
 		console.log("Successfully connected to database");
