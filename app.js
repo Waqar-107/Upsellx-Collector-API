@@ -17,8 +17,7 @@ const options = {
 	useNewUrlParser: true,
 };
 
-let DB_URL =
-	"mongodb+srv://waqar:metigy@metigy.usap5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+let DB_URL = process.env.DB_URL;
 mongoose.connect(DB_URL, options, (err) => {
 	if (!err) {
 		console.log("Successfully connected to database");
@@ -40,7 +39,7 @@ app.get("/", (req, res) => {
 });
 app.use(companyRoutes);
 
-let port = 5000;
+let port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
 	console.log("Server started at port " + port);
 });
