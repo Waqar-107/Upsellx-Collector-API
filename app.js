@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 });
 app.use(companyRoutes);
 
-let port = process.env.PORT || 5000;
+let port = process.env.PORT;
 const server = app.listen(port, () => {
 	console.log("Server started at port " + port);
 });
