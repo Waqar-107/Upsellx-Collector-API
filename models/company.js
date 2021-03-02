@@ -84,6 +84,11 @@ const CompanySchema = new Schema(
 			required: false,
 		},
 
+		title: {
+			type: String,
+			required: true,
+		},
+
 		dataSrc: [
 			{
 				name: {
