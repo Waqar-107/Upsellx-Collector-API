@@ -2,17 +2,66 @@ const mongoose = require("mongoose");
 mongoose.set("useFindAndModify", false);
 const CompanyModel = require("../models/company");
 
-const {SUCCESS, INTERNAL_SERVER_ERROR} = require("../util/errors");
+const {SUCCESS, INTERNAL_SERVER_ERROR, BAD_REQUEST} = require("../util/errors");
 const error_message = require("../util/error_message");
 
 const {getSocialLinks, getWebPage, getSelfInfo} = require("../util/parser");
 
+/**
+ * @swagger
+ * /api/get_data:
+ *   get:
+ *     deprecated: false
+ *     tags:
+ *       - Company Information
+ *     summary: Scrapes the data of the company from the url passed
+ *     parameters:
+ *       - in: query
+ *         name: url
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: url of the website of the company. this code has been tested using, https://chaldal.com/
+ *     responses:
+ *       200:
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 company:
+ *                   ref: '#/components/schemas/company'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 exports.scrapeCompanyData = async function (req, res) {
 	const companyUrl = req.query.url;
 
+	if (!companyUrl) {
+		res.status(BAD_REQUEST).json({message: "company website url missing"});
+		return;
+	}
+
 	const companyData = await CompanyModel.findOne({websiteUrl: companyUrl});
 	if (companyData) {
-		res.status(SUCCESS).json({msg: "success", companyData});
+		res.status(SUCCESS).json({company: companyData});
 		return;
 	}
 

@@ -21,7 +21,7 @@ mongoose.connect(process.env.DB_URL, options, (err) => {
 	if (!err) {
 		console.log("Successfully connected to database");
 	} else {
-		console.log("Error occurred during database connection");
+		console.log("Error occurred during database connection. err:", err);
 	}
 });
 
@@ -33,6 +33,9 @@ app.use(express.json());
 // set the docs
 swagger(app);
 
+app.get("/", (req, res) => {
+	res.send("hello metigy");
+});
 app.use(companyRoutes);
 
 let port = process.env.PORT || 5000;
