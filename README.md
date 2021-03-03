@@ -13,3 +13,19 @@ The challenge is to create an API where we will pass the personal website of a c
 
 - Fetch the webpage of the company and analyze the DOM for data.
 - Save the data in the database for future use.
+
+# How I have Approached the Problem
+
+- I have used a Node.js backend. I have a route, `/api/get_data` that is a `get method` and takes a `query parameter` `url`. The `url` is the website of the company whose information we want.
+
+- First, the database is checked, whether the particular website has been scraped or not. If yes then the saved data is returned. Otherwise the site is fetched.
+
+- After fetching the website, the response is fed to `JSDOM` which helps to analyze the DOM. Basically I have looked for contact informations, title, about, social media links, etc.
+
+- After getting the available social media links, the pages are fetched and the responses are saved in the database.
+
+- `Play Store` and `Apple Store` links are also looked so that we can get insights about the usage of their app, if they have any.
+
+- Finally, the informations are saved in the database and response is returned to the client.
+
+# System Diagram
