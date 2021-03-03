@@ -29,3 +29,5 @@ The challenge is to create an API where we will pass the personal website of a c
 - Finally, the informations are saved in the database and response is returned to the client.
 
 # System Diagram
+
+<img src="https://raw.githubusercontent.com/Waqar-107/Upsellx-Collector-API/master/assets/architecture.png?token=AF5TPCBJIRSWDMXAUB2FGO3AJBUDM" height="200px" width="350px" alt=""/>
