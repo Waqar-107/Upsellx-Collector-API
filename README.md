@@ -1,5 +1,9 @@
 # Upsellx-Collector-API
 
+Assessment for https://metigy.com/ recruitment
+
+Status: Got offer
+
 # How to Run
 
 1. Clone the repository.
